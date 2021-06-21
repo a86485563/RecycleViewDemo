@@ -1,45 +1,46 @@
-# how to build item slider
+# how to build RecycleView
 
     ref:
-    1.https://developer.android.com/reference/kotlin/androidx/recyclerview/widget/ItemTouchHelper
-    2.https://ithelp.ithome.com.tw/articles/10239304
+    1.https://ithelp.ithome.com.tw/articles/10238539
+    2.https://developer.android.com/guide/topics/ui/layout/recyclerview
 
-已有:
-
-- recycle view 基礎
-- 要拖曳的 item
-  詳細請看上回
-
-`進入正題`
-
-`最重要的就是這三句，接下來就是想辦法完成他們`
-
-```kotlin
-   val callback = ItemTouchHelperCallback(mAdapter)
-   val touchHelper = ItemTouchHelper(callback)
-   touchHelper.attachToRecyclerView(recycleView)
-```
-
-根據 官網:
-
-```kotlin
-ItemTouchHelper(@NonNull callback: ItemTouchHelper.Callback)
-```
-
-如何完成 _ItemTouchHelper_?
-
-> 根據官網
+> 根據官網:
+> 关键类
+> 将多个不同的类搭配使用，可构建动态列表。
 >
-> This is a utility class to add swipe to dismiss and drag & drop support to RecyclerView.
+> RecyclerView 是包含与您的数据对应的视图的 ViewGroup。它本身就是视图，因此，将 RecyclerView 添加到布局中的方式与添加任何其他界面元素相同。
 
-> It works with a RecyclerView and a Callback class, which configures what type of interactions are enabled and also receives events when user performs these actions.
+> 列表中的每个独立元素都由一个 ViewHolder 对象进行定义。创建 ViewHolder 时，它并没有任何关联的数据。创建 ViewHolder 后，RecyclerView 会将其绑定到其数据。您可以通过扩展 RecyclerView.ViewHolder 来定义 ViewHolder。
 
-> Depending on which functionality you support, you should override Callback#onMove(RecyclerView, ViewHolder, ViewHolder) and / or Callback#onSwiped(ViewHolder, int).
+> RecyclerView 会请求这些视图，并通过在 Adapter 中调用方法，将视图绑定到其数据。您可以通过扩展 RecyclerView.Adapter 来定义 Adapter。
 
-所以有了以下思路:
+> 布局管理器负责排列列表中的各个元素。您可以使用 RecyclerView 库提供的某个布局管理器，也可以定义自己的布局管理器。布局管理器均基于库的 LayoutManager 抽象类。
 
-1. 既然是 callback 因該要為 command patten 把動作封裝起來，官網提示要我們自己複寫 onMove()、onSwiped() 兩個 method -> 要有一個 interface _ITHelperInterface_
-2. 由我們自己的 adapter "_MyAdapter_" 去實作*ITHelperInterface* 所定義的兩個 method
-3. 最後 _ItemTouchHelperCallback_ extend _ItemTouchHelper.Callback_ 然後使用接受的參數(interface 裡定義的兩個 method)
+`轉成程式碼就變成重要的兩句話`
 
-最後還提供了比較便捷的方式 simpleCallback() 在分支裡面~
+```kotlin
+  recycleView.layoutManager = LinearLayoutManager(this)
+        recycleView.adapter = mAdapter
+```
+
+> adapter 是甚麼?
+>
+> 想像一個大櫃子，裡面由好幾格小抽屜組成。 adapter 就是幫我們處理好邏輯要怎麼放入，放入甚麼東西進入抽屜的東西。
+
+`正題開始`
+
+> 1.  layout :
+>     > - item_example.xml : 小抽屜的長相
+>     > - main activity.xml : 整個 app 的呈現，大櫃子怎麼擺放
+>
+> 2.kotlin :
+>
+> - recycleView.layoutManager = LinearLayoutManager(this)
+> - recycleView.adapter = mAdapter
+>
+> > mApapter 延伸 _RecyclerView.Adapter<MyAdapter.mViewHolder>_ 介紹幾個比較重要的梗
+> >
+> > - mViewHolder 其實就是一個 nset class，該 class 只與 mApapter 有關，延伸至 _RecyclerView.ViewHolder(itemView)_。`用來處理view傳進來後，資料如何綁定，對應到決定小抽屜的擺設`
+
+> > - _onCreateViewHolder_ `最主要目的就是告訴mViewHolder 是和哪個xml有關`
+> > - _onBindViewHolder(holder: mViewHolder, position: Int)_ `注意到傳來position，意思是大櫃子裡一層層的綁定`
