@@ -1,0 +1,21 @@
+新增兩個檔案:
+ITHelperInterface:
+目的: 
+	將動作封裝起來。
+
+分別是 : 
+	onItemMove()
+	onItemDissmiss()
+	
+******目標*********
+val callback = ItemTouchHelperCallback(mAdapter)
+val touchHelper = ItemTouchHelper(callback)
+touchHelper.attachToRecyclerView(recycleView)
+
+其實還有其他的實作方式 (SimpleCallback)
+ItemTouchHelper.Callback():
+ItemTouchHelperCallback(var mAdapter: ITHelperInterface?): ItemTouchHelper.Callback()
+
+
+myAdapter:
+實作 ITHelperInterface 所定義的動作。

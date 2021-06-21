@@ -3,9 +3,10 @@ package com.example.recyclerviewdemo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recyclerviewdemo.data.Item
-import com.example.recyclerviewdemo.touch.ItemTouchHelperCallback
+
 
 val mAdapter = MyAdapter()
 
@@ -16,12 +17,8 @@ class MainActivity : AppCompatActivity() {
         val recycleView = findViewById(R.id.recycler_view)as RecyclerView
 
         mAdapter.updateList(getItemList())     //傳入資料
+        recycleView.layoutManager = LinearLayoutManager(this)
         recycleView.adapter = mAdapter
-
-
-        val callback = ItemTouchHelperCallback(mAdapter)
-        val touchHelper = ItemTouchHelper(callback)
-        touchHelper.attachToRecyclerView(recycleView)
     }
 
     fun getItemList (): ArrayList<Item> {

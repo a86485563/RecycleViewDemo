@@ -7,11 +7,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recyclerviewdemo.data.Item
-import com.example.recyclerviewdemo.touch.ITHelperInterface
 import java.util.*
 import kotlin.collections.ArrayList
 
-class MyAdapter : RecyclerView.Adapter<MyAdapter.mViewHolder>(), ITHelperInterface {
+class MyAdapter : RecyclerView.Adapter<MyAdapter.mViewHolder>() {
 
     lateinit var unAssignList :ArrayList<Item>
 
@@ -48,13 +47,5 @@ class MyAdapter : RecyclerView.Adapter<MyAdapter.mViewHolder>(), ITHelperInterfa
         unAssignList = list
     }
 
-    override fun onItemMove(fromPosition: Int, toPosition: Int) {
-        Collections.swap(unAssignList,fromPosition,toPosition)
-        notifyItemMoved(fromPosition,toPosition)
-    }
 
-    override fun onItemDissmiss(position: Int) {
-        unAssignList.removeAt(position)
-        notifyItemRemoved(position)
-    }
 }
