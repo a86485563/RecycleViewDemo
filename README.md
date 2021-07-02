@@ -10,6 +10,7 @@
   - [layout](#layout)
   - [kotlin](#kotlin)
 - [ItemTouchHelper](#itemtouchhelper)
+- [ref](#ref)
 
 ## 簡介
 
@@ -80,3 +81,8 @@ mApapter 延伸 _RecyclerView.Adapter<MyAdapter.mViewHolder>_ 介紹幾個比較
         val touchHelper = ItemTouchHelper(callback)
         touchHelper.attachToRecyclerView(recycleView)
 ```
+
+## ref
+1. https://developer.android.com/reference/kotlin/androidx/recyclerview/widget/ItemTouchHelper
+2. https://ithelp.ithome.com.tw/articles/10238539
+3. https://ithelp.ithome.com.tw/articles/10239304
